@@ -1,0 +1,54 @@
+
+.vbox-1{
+    -fx-background-color: #04080F;
+    -fx-alignment: center;
+
+    -fx-spacing: 15;
+}
+
+#loginBtn{
+    -fx-background-color: #d0013a;
+    /*-fx-background-color: #123c69;*/
+    -fx-min-width: 200;
+    -fx-min-height: 20;
+    -fx-font-weight: bold;
+    -fx-background-radius: 30px;
+    -fx-cursor: pointer;
+    -fx-alignment: center;
+}
+#loginBtn:hover{
+    -fx-background-color: #c00233;
+    /*-fx-background-color: #0e3660;*/
+    -fx-transition: all 0.3s ease;
+}
+#bt{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20px;
+    -fx-letter-spacing: 5px;
+    -fx-graphic-text-gap: 5;
+    -fx-background-radius: 10px;
+
+
+}
+#usernameField{
+
+    -fx-border-width: 2;
+    -fx-border-color: transparent transparent #ffffff transparent;
+    -fx-background-color: transparent;
+
+    -fx-min-width: 250;
+    -fx-min-height: 40;
+    -fx-font-size: 14;
+    -fx-text-fill: #ffffff;
+}
+.pass-field{
+    -fx-border-width: 2;
+    -fx-border-color: transparent transparent #ffffff transparent;
+
+    -fx-background-color: transparent;
+    -fx-min-width: 250;
+    -fx-min-height: 40;
+    -fx-font-size: 14;
+    -fx-text-fill: #ffffff;
+
+}
