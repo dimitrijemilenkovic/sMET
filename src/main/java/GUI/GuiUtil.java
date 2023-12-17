@@ -2,19 +2,28 @@ package GUI;
 
 import javafx.animation.ScaleTransition;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+
+
 public class GuiUtil {
+    private static Stage stage;
+    static Screen screen = Screen.getPrimary();
+    private static final Rectangle2D bounds = screen.getVisualBounds();
 
     /**
      * Generates a logo node by loading an image file and setting its dimensions.
@@ -148,6 +157,34 @@ public class GuiUtil {
 
         node.setOnMouseEntered((MouseEvent mouseEvent) -> scaleTransitionEnter.playFromStart());
         node.setOnMouseExited((MouseEvent mouseEvent) -> scaleTransitionExit.playFromStart());
+    }
+    public static void relocate(Scene scene) {
+        if (stage != null) {
+            stage.setX((bounds.getWidth() - scene.getWidth()) / 2);
+            stage.setY((bounds.getHeight() - scene.getHeight()) / 2);
+        }
+    }
+    public static void setPrimaryStage(Stage stage) {
+        GuiUtil.stage = stage;
+    }
+
+    /**
+     * Returns the primary stage of the application.
+     *
+     * @return the primary stage of the application
+     */
+    public static Stage getPrimaryStage() {
+        return stage;
+    }
+
+    public  static Button createButtonMenu(String buttonText, String id) {
+        Button button = new Button();
+        button.setId(id);
+        Label label = new Label(buttonText);
+        label.setId(id + "-bt");
+        HBox buttonBox = createButtonBox(label);
+        button.setGraphic(buttonBox);
+        return button;
     }
 
 

@@ -10,16 +10,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
+import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.util.Objects;
 
 public class TextPost extends VBox {
-    private String imeIPrezime;
-    private String username;
-    private String time;
-
-
-
 
     public TextPost(String text, String imeIPrezime, String username, String time) throws FileNotFoundException {
         this.getChildren().addAll(vBoxUpper(imeIPrezime, username), vBoxMiddle(text), vBoxLower(time));
@@ -30,20 +25,20 @@ public class TextPost extends VBox {
 
         this.getStyleClass().add("post");
 
-//        this.setBackground(Background.fill(Paint.valueOf("#DAE3E5")));
-
-
 
     }
 
     private static VBox vBoxUpper(String imeIPrezime, String username) throws FileNotFoundException {
         VBox vBox = new VBox();
+        vBox.getStyleClass().add("profile-part-of-post");
         HBox hBox = new HBox();
         VBox vBox1 = new VBox();
         vBox1.setAlignment(Pos.CENTER_LEFT);
         Label label = new Label(imeIPrezime);
         label.setId("label-white");
         label.getStyleClass().add("ime-i-prezime-label");
+
+
 
 
 

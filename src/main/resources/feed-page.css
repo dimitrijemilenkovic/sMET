@@ -113,6 +113,7 @@
 }
 .ime-i-prezime-label{
     -fx-font-weight: bold;
+    -fx-font-size: 18px;
 
 }
 #send-button-bt{
@@ -121,4 +122,10 @@
 .profile-box{
     -fx-background-color:#5B6183FF ;
     -fx-background-radius: 10;
+}
+
+.profile-part-of-post:hover{
+    -fx-background-color: #4f5577;
+    -fx-background-radius: 10;
+    -fx-max-width: 200;
 }

@@ -24,8 +24,6 @@ import static GUI.GuiUtil.buttonScaleTransition;
 public class LoginPage extends Scena {
 
     private static Stage stage;
-    static Screen screen = Screen.getPrimary();
-    private static final Rectangle2D bounds = screen.getVisualBounds();
     public static LoginPage instance;
 
     static {
@@ -44,12 +42,7 @@ public class LoginPage extends Scena {
         }
     }
 
-    public void relocate() {
-        if (stage != null) {
-            stage.setX((bounds.getWidth() - getWidth()) / 2);
-            stage.setY((bounds.getHeight() - getHeight()) / 2);
-        }
-    }
+
     private static Parent root() throws FileNotFoundException {
         HBox hBox = new HBox();
 
@@ -104,7 +97,7 @@ public class LoginPage extends Scena {
         buttonScaleTransition(loginBtn);
         loginBtn.setOnAction(actionEvent -> {
             stage.setScene(Feed.instance2);
-            Feed.instance2.relocate();
+            GuiUtil.relocate(Feed.instance2);
         });
         loginBtn.getStyleClass().add("myButton");
 
@@ -162,16 +155,6 @@ public class LoginPage extends Scena {
     public static void setPrimaryStage(Stage stage) {
         LoginPage.stage = stage;
     }
-
-    /**
-     * Retrieves the primary stage.
-     *
-     * @return the primary stage
-     */
-    public static Stage getPrimaryStage() {
-        return stage;
-    }
-
 
 
 }

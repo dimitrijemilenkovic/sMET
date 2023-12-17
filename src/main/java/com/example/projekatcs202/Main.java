@@ -1,8 +1,6 @@
 package com.example.projekatcs202;
 
-import GUI.Feed;
-import GUI.LoginPage;
-import GUI.ProfilePage;
+import GUI.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -16,8 +14,6 @@ public class Main extends Application {
     //TODO: CREATE PROFILE PAGE
 
     //TODO: CREATE EVENT PAGE
-
-    //Provara gita
 
 
 
@@ -33,7 +29,8 @@ public class Main extends Application {
         Feed.setPrimaryStage(stage);
         LoginPage.setPrimaryStage(stage);
         ProfilePage.setPrimaryStage(stage);
-//        MenuBar.setPrimaryStage(stage);
+        CustomMenuBar.setPrimaryStage(stage);
+        GuiUtil.setPrimaryStage(stage);
 
     }
     public static void main(String[] args) {
