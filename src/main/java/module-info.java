@@ -10,4 +10,6 @@ module com.example.projekatcs202 {
     exports com.example.projekatcs202;
     exports GUI;
     opens GUI to javafx.fxml;
+
+
 }

@@ -7,7 +7,7 @@ import javafx.stage.Screen;
 
 
 public abstract class Scena extends Scene {
-    static Screen screen = Screen.getPrimary();
+    protected static Screen screen = Screen.getPrimary();
     private static final Rectangle2D bounds = screen.getVisualBounds();
 
     public Scena(Parent root) {

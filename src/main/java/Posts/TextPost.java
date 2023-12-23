@@ -2,15 +2,12 @@ package Posts;
 
 import GUI.GuiUtil;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
-import javax.swing.*;
 import java.io.FileNotFoundException;
 import java.util.Objects;
 

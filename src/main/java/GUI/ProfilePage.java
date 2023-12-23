@@ -6,19 +6,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class ProfilePage extends Scena {
@@ -44,7 +39,7 @@ public class ProfilePage extends Scena {
 
     private static Parent root() throws FileNotFoundException {
         HBox hBox = new HBox();
-        CustomMenuBar menuBar = new CustomMenuBar("inactive-button-menu-bar","active-button-menu-bar","inactive-button-menu-bar","inactive-button-menu-bar");
+        CustomMenuBar menuBar = new CustomMenuBar("inactive-button-menu-bar","active-button-menu-bar","inactive-button-menu-bar","inactive-button-menu-bar","inactive-button-menu-bar");
         AnchorPane anchorPane= menuBar.getCustomMenuBar();
         hBox.getChildren().addAll(anchorPane,mainPart());
         return hBox;

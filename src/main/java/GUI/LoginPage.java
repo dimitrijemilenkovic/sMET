@@ -1,7 +1,6 @@
 package GUI;
 
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -12,8 +11,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
+import networking.Client;
+import networking.packages.HelloPakcet;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -96,6 +96,7 @@ public class LoginPage extends Scena {
         loginBtn.setId("loginBtn");
         buttonScaleTransition(loginBtn);
         loginBtn.setOnAction(actionEvent -> {
+            Client.getInstance().send(new HelloPakcet());
             stage.setScene(Feed.instance2);
             GuiUtil.relocate(Feed.instance2);
         });

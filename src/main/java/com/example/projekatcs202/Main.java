@@ -1,9 +1,13 @@
 package com.example.projekatcs202;
 
-import GUI.*;
+import GUI.CustomMenuBar;
+import GUI.GuiUtil;
+import GUI.Feed;
+import GUI.LoginPage;
+import GUI.ProfilePage;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
+import networking.Client;
 
 
 public class Main extends Application {
@@ -19,6 +23,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        new Client().start();
+
         setPrimStageForAll(stage);
         stage.setScene(LoginPage.instance);
         stage.setResizable(false);

@@ -19,11 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -60,7 +56,7 @@ public class Feed extends Scena {
     private static Parent root() throws FileNotFoundException {
         HBox hBox = new HBox();
         hBox.getStyleClass().add("border-pane");
-        CustomMenuBar menuBar = new CustomMenuBar("active-button-menu-bar","inactive-button-menu-bar","inactive-button-menu-bar","inactive-button-menu-bar");
+        CustomMenuBar menuBar = new CustomMenuBar("active-button-menu-bar","inactive-button-menu-bar","inactive-button-menu-bar","inactive-button-menu-bar","inactive-button-menu-bar");
         AnchorPane anchorPane= menuBar.getCustomMenuBar();
         hBox.getChildren().addAll(anchorPane, mainPart(), secondPart());
 
@@ -69,8 +65,6 @@ public class Feed extends Scena {
     }
 
 
-
-//
 
     private static ScrollPane mainPart() throws FileNotFoundException {
 
@@ -164,6 +158,8 @@ public class Feed extends Scena {
         return textArea;
     }
 
+
+
     /**
      * Sets the primary stage for the application.
      *
@@ -238,5 +234,7 @@ public class Feed extends Scena {
 
         return hBox;
     }
+
+
 
 }
