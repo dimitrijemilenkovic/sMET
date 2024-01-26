@@ -2,8 +2,5 @@ package networking.packages;
 
 import java.io.Serializable;
 
-public class HelloPakcet implements Serializable {
-
-
-
+public class DisconnectRequest implements Serializable {
 }

@@ -19,7 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 
-
 public class GuiUtil {
     private static Stage stage;
     static Screen screen = Screen.getPrimary();
@@ -28,8 +27,8 @@ public class GuiUtil {
     /**
      * Generates a logo node by loading an image file and setting its dimensions.
      *
-     * @return  The logo node as an ImageView object.
-     * @throws  FileNotFoundException  If the image file is not found.
+     * @return The logo node as an ImageView object.
+     * @throws FileNotFoundException If the image file is not found.
      */
     public static Node logo() throws FileNotFoundException {
         String imagePath = "/Users/dimimac/INTELLIJ/JAVA II/PROJEKAT/projekat-cs202/assets/logos/smet.png";
@@ -39,23 +38,25 @@ public class GuiUtil {
         imageView.setFitWidth(200);
         return imageView;
     }
+
     /**
      * Creates an ImageView object from an image file.
      *
-     * @param  path  the path to the image file
-     * @return       the created ImageView object
+     * @param path the path to the image file
+     * @return the created ImageView object
      * @throws FileNotFoundException if the image file is not found
      */
     public static ImageView createIcon(String path) throws FileNotFoundException {
         Image image = new Image(new FileInputStream(path));
         return new ImageView(image);
     }
+
     /**
      * Create a button with the given text and ID.
      *
-     * @param  buttonText    the text to display on the button
-     * @param  buttonId      the unique ID of the button
-     * @return               the created button
+     * @param buttonText the text to display on the button
+     * @param buttonId   the unique ID of the button
+     * @return the created button
      */
     public static Button createButton(String buttonText, String buttonId) {
         Button button = new Button();
@@ -66,13 +67,14 @@ public class GuiUtil {
         button.setGraphic(buttonBox);
         return button;
     }
+
     /**
      * Creates a button with text and an icon.
      *
-     * @param  buttonText  the text to be displayed on the button
-     * @param  id          the id of the button
-     * @param  iconPath    the path to the icon image file
-     * @return             the created button
+     * @param buttonText the text to be displayed on the button
+     * @param id         the id of the button
+     * @param iconPath   the path to the icon image file
+     * @return the created button
      * @throws FileNotFoundException if the icon image file is not found
      */
 
@@ -85,11 +87,12 @@ public class GuiUtil {
         button.setGraphic(buttonBox);
         return button;
     }
+
     /**
      * Creates a horizontal box with the given nodes as children.
      *
-     * @param  children  the nodes to be added to the box
-     * @return          the created horizontal box
+     * @param children the nodes to be added to the box
+     * @return the created horizontal box
      */
     private static HBox createButtonBox(Node... children) {
         HBox buttonBox = new HBox(children);
@@ -97,10 +100,11 @@ public class GuiUtil {
         buttonBox.setSpacing(0);
         return buttonBox;
     }
+
     /**
      * Generates a button scale transition effect for the given button.
      *
-     * @param  button  the button to apply the scale transition effect to
+     * @param button the button to apply the scale transition effect to
      */
 
     public static void buttonScaleTransition(Button button) {
@@ -121,7 +125,7 @@ public class GuiUtil {
     /**
      * Generates a scale transition effect for a button when the mouse enters and exits.
      *
-     * @param  button  the button to apply the scale transition effect to
+     * @param button the button to apply the scale transition effect to
      */
     public static void buttonScaleTransitionMenu(Button button) {
         ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), button);
@@ -137,14 +141,15 @@ public class GuiUtil {
 
         button.setOnMouseExited(mouseEvent -> reverseTransition.playFromStart());
     }
+
     /**
      * Applies a scale transition to the specified node.
      *
-     * @param  node            the node to apply the scale transition to
-     * @param  scaleValueX     the X scale value
-     * @param  scaleValueY     the Y scale value
-     * @param  durationEnter   the duration of the scale transition on mouse enter
-     * @param  durationExit    the duration of the scale transition on mouse exit
+     * @param node          the node to apply the scale transition to
+     * @param scaleValueX   the X scale value
+     * @param scaleValueY   the Y scale value
+     * @param durationEnter the duration of the scale transition on mouse enter
+     * @param durationExit  the duration of the scale transition on mouse exit
      */
     public static void applyScaleTransition(Node node, double scaleValueX, double scaleValueY, int durationEnter, int durationExit) {
         ScaleTransition scaleTransitionEnter = new ScaleTransition(Duration.millis(durationEnter), node);
@@ -158,12 +163,14 @@ public class GuiUtil {
         node.setOnMouseEntered((MouseEvent mouseEvent) -> scaleTransitionEnter.playFromStart());
         node.setOnMouseExited((MouseEvent mouseEvent) -> scaleTransitionExit.playFromStart());
     }
+
     public static void relocate(Scene scene) {
         if (stage != null) {
             stage.setX((bounds.getWidth() - scene.getWidth()) / 2);
             stage.setY((bounds.getHeight() - scene.getHeight()) / 2);
         }
     }
+
     public static void setPrimaryStage(Stage stage) {
         GuiUtil.stage = stage;
     }
@@ -177,16 +184,22 @@ public class GuiUtil {
         return stage;
     }
 
-    public  static Button createButtonMenu(String buttonText, String id) {
+    public static Button createButtonMenu(String buttonText, String id, String icon) throws FileNotFoundException {
         Button button = new Button();
         button.setId(id);
+        Image image = new Image(new FileInputStream(icon));
+
+
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
         Label label = new Label(buttonText);
         label.setId(id + "-bt");
-        HBox buttonBox = createButtonBox(label);
+        HBox buttonBox = createButtonBox(imageView, label);
+        buttonBox.setSpacing(10);
         button.setGraphic(buttonBox);
         return button;
     }
-
 
 
 }

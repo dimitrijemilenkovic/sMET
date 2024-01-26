@@ -9,9 +9,44 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.Objects;
 
 public class TextPost extends VBox {
+
+    public static class TextPostElement implements Serializable {
+        private String text,imeIPrezime,username,time;
+        public TextPostElement(String text, String imeIPrezime, String username, String time){
+            this.imeIPrezime=imeIPrezime;
+            this.text=text;
+            this.username=username;
+            this.time=time;
+        }
+        public TextPostElement(){
+
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public String getImeIPrezime() {
+            return imeIPrezime;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getTime() {
+            return time;
+        }
+        public TextPost get() throws FileNotFoundException {
+            return new TextPost(text,imeIPrezime,username,time);
+        }
+    }
+
+
 
     public TextPost(String text, String imeIPrezime, String username, String time) throws FileNotFoundException {
         this.getChildren().addAll(vBoxUpper(imeIPrezime, username), vBoxMiddle(text), vBoxLower(time));

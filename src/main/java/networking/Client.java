@@ -1,93 +1,180 @@
 package networking;
 
-import networking.packages.HelloPakcet;
+import networking.packages.ConnectRequest;
+import networking.packages.DisconnectRequest;
+import networking.packages.LogoutRequest;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
-public class Client {
+public abstract class Client {
+    private static final String HOST = "localhost";
 
-    public static final String HOST = "localhost";
-    private static Client instance;
-    private Socket socket;
-    private boolean running = false;
+    private static boolean connected = false;
 
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
-
-
-    public Client() {
-        if (instance == null) {
-            instance = this;
-        } else {
-            throw new IllegalStateException("Client already exists");
-        }
-
+    public static boolean isConnected() {
+        return connected;
     }
 
-    public static final Client getInstance() {
-        return instance;
+    private static boolean loggedIn = false;
+
+    public static boolean isLoggedIn() {
+        return loggedIn;
     }
 
-    public void start() {
-        if (this.running) {
-            System.out.println("Client already running");
+    private static Socket socket = null;
+    private static ObjectOutputStream out = null;
+    private static ObjectInputStream in = null;
+
+    public static void connect(String username, String password) throws IOException {
+        if (isConnected()) {
+            System.out.println("Can't connect to the server.Client is already connected!");
+            logIn(username, password);
             return;
         }
-        try {
-            this.socket = new Socket(HOST, Server.PORT);
-            this.objectOutputStream = new ObjectOutputStream(this.socket.getOutputStream());
-            this.objectInputStream = new ObjectInputStream(this.socket.getInputStream());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
+        System.out.println("Connecting to the server...");
+        socket = new Socket(HOST, Server.PORT);
+        System.out.println("Connected to the server!");
+
+        System.out.println("Initializing streams...");
+        out = new ObjectOutputStream(socket.getOutputStream());
+        out.flush();
+        in = new ObjectInputStream(socket.getInputStream());
+        System.out.println("Streams initialized!");
+
+        connected = true;
+        logIn(username, password);
+    }
+
+    private static void logIn(String username, String password) {
+        if (loggedIn) {
+            System.out.println("Can't log in. User is already logged in!");
+            return;
+        }
+        System.out.println("Requesting login...");
+        ConnectRequest request = new ConnectRequest(username, password);
+        trySend(request);
+        ConnectRequest response = (ConnectRequest) tryReceive();
+
+        if (response == null || !response.isValidRequest()) {
+            System.out.println("Login failed!");
+            loggedIn = false;
+            return;
+        }
+        System.out.println("Login successful!");
+        loggedIn = true;
+
+        listen();
+    }
+
+    private static void listen() {
+        System.out.println("Listening for messages...");
+
+        System.out.println("Starting new thread...");
         new Thread(() -> {
-            send(new HelloPakcet());
-            while (running) {
-                Object message = read();
-                this.handleMessage(message);
-
+            try {
+                socket.setSoTimeout(1000);
+            } catch (SocketException e) {
+                throw new RuntimeException(e);
             }
-
+            while (isLoggedIn()) {
+                Object message = null;
+                try {
+                    message = receive();
+                } catch (SocketTimeoutException ex) {
+                    if (!isLoggedIn()) {
+                        break;
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                if (message != null) {
+                    handleMessage(message);
+                }
+            }
         }).start();
-
+        System.out.println("Thread started!");
     }
 
-    public void disconnect() {
-        this.running = false;
-        try {
-            this.socket.close();
+    private static void handleMessage(Object message) {
+        if (message instanceof DisconnectRequest) {
+            System.out.println("Received disconnect request!");
 
+            forceDisconnect();
+
+        }
+        if (!loggedIn) {
+            return;
+        }
+        PackageHandler.handlePackageClient(message);
+    }
+
+
+    private static void forceDisconnect() {
+        System.out.println("Disconnecting...");
+        try {
+            if (!socket.isClosed()) {
+                out.flush();
+                out.close();
+                in.close();
+                socket.close();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        connected = false;
+        System.out.println("Disconnected!");
     }
 
-    private Object read() {
+    public static void disconnect() throws IOException {
+        System.out.println("Disconnecting...");
+        System.out.println("Sending disconnect request...");
+        trySend(new DisconnectRequest());
+        if (!socket.isClosed()) {
+            out.close();
+            in.close();
+            socket.close();
+        }
+        connected = false;
+        System.out.println("Disconnected!");
+    }
+
+    public static void logout() {
+        System.out.println("Logging out...");
+        System.out.println("Sending logout request...");
+        trySend(new LogoutRequest());
+        loggedIn = false;
+        System.out.println("Logged out!");
+    }
+
+    public static void send(Object message) throws IOException {
+        out.writeObject(message);
+        out.flush();
+    }
+
+    public static void trySend(Object message) {
         try {
-            return objectInputStream.readObject();
+            send(message);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Object receive() throws IOException, ClassNotFoundException {
+        return in.readObject();
+    }
+
+    public static Object tryReceive() {
+        try {
+            return receive();
         } catch (IOException | ClassNotFoundException e) {
-            this.disconnect();
+            e.printStackTrace();
         }
         return null;
     }
-
-    private void handleMessage(Object message) {
-
-    }
-
-    public void send(Object message) {
-        try {
-            objectOutputStream.writeObject(message);
-            objectOutputStream.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
 }

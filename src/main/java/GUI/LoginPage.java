@@ -3,20 +3,17 @@ package GUI;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import networking.Client;
-import networking.packages.HelloPakcet;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Objects;
 
 import static GUI.GuiUtil.buttonScaleTransition;
@@ -25,6 +22,9 @@ public class LoginPage extends Scena {
 
     private static Stage stage;
     public static LoginPage instance;
+
+    private static TextField usernameField= (TextField) username();
+    private static   PasswordField passwordField= (PasswordField) password();
 
     static {
         try {
@@ -65,8 +65,8 @@ public class LoginPage extends Scena {
         root.setMaxHeight(500);
         Node logo = logo();
         Node loginBtn = loginButton();
-        Node passField = password();
-        Node userField = username();
+        Node passField = passwordField;
+        Node userField = usernameField;
         Node metLogoSlika = metSlika();
 
         root.getChildren().addAll(logo, loginBtn, passField, userField, metLogoSlika);
@@ -96,7 +96,20 @@ public class LoginPage extends Scena {
         loginBtn.setId("loginBtn");
         buttonScaleTransition(loginBtn);
         loginBtn.setOnAction(actionEvent -> {
-            Client.getInstance().send(new HelloPakcet());
+            final String username = usernameField.getText(); // TODO : Get username
+            final String password = passwordField.getText(); // TODO : Get password
+            try {
+                Client.connect(username,password);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if (!Client.isLoggedIn()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Failed");
+                alert.setContentText("Cant connect to server");
+                alert.showAndWait();
+                return;
+            }
             stage.setScene(Feed.instance2);
             GuiUtil.relocate(Feed.instance2);
         });

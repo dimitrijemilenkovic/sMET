@@ -6,6 +6,7 @@ import GUI.Feed;
 import GUI.LoginPage;
 import GUI.ProfilePage;
 import javafx.application.Application;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import networking.Client;
 
@@ -23,8 +24,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        new Client().start();
-
         setPrimStageForAll(stage);
         stage.setScene(LoginPage.instance);
         stage.setResizable(false);

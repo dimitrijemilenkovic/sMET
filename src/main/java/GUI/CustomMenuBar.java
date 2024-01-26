@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import networking.Client;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -23,42 +24,51 @@ public class CustomMenuBar {
     private final AnchorPane anchorPane;
 
 
-    public CustomMenuBar(String feedButtonStyle, String profileButtonStyle,String messagesButtonStyle,String eventButtonStyle,  String iMetButtonStyle) throws FileNotFoundException {
+    public CustomMenuBar(String feedButtonStyle, String profileButtonStyle, String messagesButtonStyle, String eventButtonStyle, String iMetButtonStyle) throws FileNotFoundException {
         anchorPane = new AnchorPane();
 
-        String feedString = "F E E D";
-        String profileString = "P R O F I L E";
-        String eventString = "E V E N T";
-        String iMetString = "I M E T";
-        String logOutString = "L O G  O U T";
-        String messangerString = "M E S S A G E S";
+        String feedString = "  Feed";
+        String profileString = " Profile";
+        String eventString = " Events";
+        String iMetString = " iMet";
+        String logOutString = " Log out";
+        String messangerString = " Messages";
 
+        String feedIconPath = "/Users/dimimac/INTELLIJ/JAVA II/PROJEKAT/projekat-cs202/assets/buttonImages/home.png";
+        String profileIconPath = "/Users/dimimac/INTELLIJ/JAVA II/PROJEKAT/projekat-cs202/assets/buttonImages/user.png";
+        String eventIconPath = "/Users/dimimac/INTELLIJ/JAVA II/PROJEKAT/projekat-cs202/assets/buttonImages/event.png";
+        String metIconPath = "/Users/dimimac/INTELLIJ/JAVA II/PROJEKAT/projekat-cs202/assets/buttonImages/met.png";
+        String logoutIconPath = "/Users/dimimac/INTELLIJ/JAVA II/PROJEKAT/projekat-cs202/assets/buttonImages/logoff.png";
+        String messagesIconPath = "/Users/dimimac/INTELLIJ/JAVA II/PROJEKAT/projekat-cs202/assets/buttonImages/messages.png";
 
 
         Node logo = GuiUtil.logo();
-        Node feedBtn = createButton(feedString,feedButtonStyle ,() -> switchScene(Feed.instance2));
+        Node feedBtn = createButton(feedString, feedButtonStyle, feedIconPath, () -> switchScene(Feed.instance2));
 
-        Node messangerBtn = createButton(messangerString, messagesButtonStyle ,() -> switchScene(MessangerPage.instance));
+        Node messangerBtn = createButton(messangerString, messagesButtonStyle, messagesIconPath, () -> switchScene(MessangerPage.instance));
 
-        Node profileBtn = createButton(profileString, profileButtonStyle,() -> switchScene(ProfilePage.instance));
+        Node profileBtn = createButton(profileString, profileButtonStyle, profileIconPath, () -> switchScene(ProfilePage.instance));
         profileBtn.setId(profileButtonStyle);
 
-        Node eventBtn = createButton(eventString, eventButtonStyle, () -> switchScene(Feed.instance2));
+        Node eventBtn = createButton(eventString, eventButtonStyle, eventIconPath, () -> switchScene(Feed.instance2));
         eventBtn.setId(eventButtonStyle);
 
-        Node iMetButton = createButton(iMetString, iMetButtonStyle, this::openURL);
+        Node iMetButton = createButton(iMetString, iMetButtonStyle, metIconPath, this::openURL);
         iMetButton.setId(iMetButtonStyle);
 
-        Node logoutBtn = createButton(logOutString, "inactive-button-menu-bar", () -> switchScene(LoginPage.instance));
+        Node logoutBtn = createButton(logOutString, "inactive-button-menu-bar", logoutIconPath, () -> {
+            Client.logout();
+            switchScene(LoginPage.instance);
+
+        });
         logoutBtn.setId("inactive-button-menu-bar");
 
 
-        anchorPane.getChildren().addAll(logo, feedBtn, profileBtn,messangerBtn, eventBtn, iMetButton, logoutBtn);
-
+        anchorPane.getChildren().addAll(logo, feedBtn, profileBtn, messangerBtn, eventBtn, iMetButton, logoutBtn);
 
 
         AnchorPane.setTopAnchor(logo, 0d);
-        AnchorPane.setLeftAnchor(logo, 0d);
+        AnchorPane.setLeftAnchor(logo, 50d);
 
         AnchorPane.setRightAnchor(feedBtn, 0d);
         AnchorPane.setTopAnchor(feedBtn, 150d);
@@ -105,8 +115,8 @@ public class CustomMenuBar {
         }
     }
 
-    private Node createButton(String buttonText,String id, Runnable action) {
-        Button button = GuiUtil.createButtonMenu(buttonText,id);
+    private Node createButton(String buttonText, String id, String iconPath, Runnable action) throws FileNotFoundException {
+        Button button = GuiUtil.createButtonMenu(buttonText, id, iconPath);
         button.setOnAction(actionEvent -> {
             action.run();
         });
@@ -114,7 +124,6 @@ public class CustomMenuBar {
         GuiUtil.buttonScaleTransitionMenu(button);
         return button;
     }
-
 
 
 }

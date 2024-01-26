@@ -6,14 +6,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class ProfilePage extends Scena {
@@ -96,6 +101,46 @@ public class ProfilePage extends Scena {
 
 
         return profilePicturePanel;
+    }
+
+    private static VBox socialNetworkPanel() {
+        VBox socialNetworkPanel = new VBox();
+        socialNetworkPanel.getStyleClass().add("social-network-panel");
+        return socialNetworkPanel;
+
+
+    }
+
+    private static HBox socialNetworkBar(ImageView socialNetworkIcon,String socialNetworkName,String socialNetworkLink) {
+        HBox socialNetworkBar = new HBox();
+        socialNetworkBar.getStyleClass().add("social-network-bar");
+        Label soccialNetworkName = new Label (socialNetworkName);
+        socialNetworkBar.getChildren().addAll(socialNetworkIcon,soccialNetworkName);
+        socialNetworkBar.setSpacing(10);
+        socialNetworkBar.setAlignment(Pos.CENTER_LEFT);
+        socialNetworkBar.setOnMouseClicked(event -> {
+
+            if (socialNetworkLink == null) {
+
+            }
+            try {
+                Desktop.getDesktop().browse(new URI(socialNetworkLink));
+            } catch (IOException | URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        return socialNetworkBar;
+    }
+
+    private static TilePane socialNetworkNameInput(String socialNetworkName) {
+        TilePane socialNetworkNameInput = new TilePane();
+        socialNetworkNameInput.getStyleClass().add("social-network-name-input");
+        TextInputDialog td = new TextInputDialog("Enter URL here");
+        td.setHeaderText("Enter URL to your + " + socialNetworkName);
+        td.showAndWait();
+        return socialNetworkNameInput;
+
     }
 
 
